@@ -43,7 +43,7 @@ const likesRoutes = require('./routes/likes');
 const watchlistRoutes = require('./routes/watchlist');
 // Cấu hình CORS đầy đủ hơn
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5000'], // Hoặc domain cụ thể của frontend
+  origin: ['https://moviestreaming.io.vn','https://movie-streamming-be-v1.onrender.com'], // Hoặc domain cụ thể của frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD','TRACE','CONNECT'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'access-control-allow-methods', 'access-control-allow-origin', 'access-control-allow-headers'],
   exposedHeaders: ['Content-Length', 'Authorization'],
@@ -138,7 +138,7 @@ async function startServer() {
       // Khởi tạo Socket.IO
       const io = new Server(server, {
           cors: {
-              origin: ['http://localhost:3000', 'http://localhost:5000', '*'],
+              origin: ['https://movie-streamming-be-v1.onrender.com', 'https://moviestreaming.io.vn'],
               methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
               credentials: true
           }

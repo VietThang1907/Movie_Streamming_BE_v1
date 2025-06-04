@@ -69,6 +69,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.use('/api/health', require('./routes/healthCheck')); // Health check route
 app.use("/api/auth", authRoutes);
 app.use("/api", movieRoutes);   
 app.use('/api', movieCrawlRoutes);

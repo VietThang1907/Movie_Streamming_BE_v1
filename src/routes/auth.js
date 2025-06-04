@@ -859,11 +859,16 @@ router.post("/upload-avatar", upload.single('avatar'), async (req, res) => {
 router.post("/google-login", async (req, res) => {
   try {
     console.log("=== GOOGLE LOGIN REQUEST ===");
+    console.log("Headers:", req.headers);
+    console.log("Body:", req.body);
+    console.log("Origin:", req.get('origin'));
+    
     const { email, name, googleId, picture } = req.body;
     
     console.log("Google login data:", { email, name, googleId, picture });
     
     if (!email || !googleId) {
+      console.log("❌ Missing required fields:", { email: !!email, googleId: !!googleId });
       return res.status(400).json({ error: "Email và Google ID là bắt buộc" });
     }
     
@@ -997,8 +1002,12 @@ router.post("/google-login", async (req, res) => {
       }
     });
   } catch (error) {
-    console.error("Lỗi đăng nhập Google:", error);
-    res.status(500).json({ error: "Lỗi hệ thống khi xử lý đăng nhập Google" });
+    console.error("❌ Lỗi đăng nhập Google:", error);
+    console.error("Error stack:", error.stack);
+    res.status(500).json({ 
+      error: "Lỗi hệ thống khi xử lý đăng nhập Google",
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 
@@ -1193,7 +1202,7 @@ router.post("/forgot-password", async (req, res) => {
     // Gửi email
     const { transporter } = require('../config/email');
     
-    const resetURL = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/auth/reset-password?token=${resetToken}`;
+    const resetURL = `${process.env.FRONTEND_URL || 'https://moviestreaming.io.vn'}/auth/reset-password?token=${resetToken}`;
     
     const mailOptions = {
       from: process.env.EMAIL_USER,
